@@ -3,12 +3,15 @@ import Menu from './components/menu'
 import About from './components/About'
 import Footer from './components/Footer'
 import Anecdote from './components/Anecdote'
+import Notification from './components/Notification'
 import AnecdoteList from './components/AnecdoteList'
 import {
-  Routes, Route, useMatch
+  Routes, Route, useMatch, useNavigate
 } from 'react-router-dom'
 
 const CreateNew = (props) => {
+  const navigate = useNavigate()
+
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -22,6 +25,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
   }
 
   return (
@@ -64,11 +68,15 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState([])
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification( ['following anecdote created: ', `" ${anecdote.content} "`])
+    setTimeout(()=>{
+      setNotification([])
+    }, 3000)
   }
 
   const anecdoteById = (id) =>
@@ -86,15 +94,14 @@ const App = () => {
   }
 
   const match = useMatch('/anecdotes/:id') //executed each time browsers url changes
-  console.log('match: ', match)
    //if url matches 'anecdotes/:id' an object is generated
   const anecdote = match 
     ?anecdotes.find(a => a.id === Number(match.params.id))
     :null
-  console.log("anecdote: ", anecdote)
   return(
     <>
       <h1>Software anecdotes</h1>
+      <Notification notification={notification}/>
       <Menu/>
         <Routes>
           <Route path='/anecdotes/:id' element={<Anecdote anecdote={anecdote}/>} />
