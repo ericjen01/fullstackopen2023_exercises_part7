@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useField = (name) => {
+export const useField = (label) => {
   const [value, setValue] = useState('')
 
   const erase = (e) => setValue('')
@@ -8,7 +8,7 @@ export const useField = (name) => {
   const onChange = (e) => {setValue(e.target.value)}
 
   return{
-    name,
+    label,
     value,
     onChange,
     erase

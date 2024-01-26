@@ -13,9 +13,9 @@ import {
 const CreateNew = (props) => {
 
   const navigate = useNavigate()
-  const content = useField('content')
-  const author = useField('author')
-  const info = useField('info')
+  const {erase:eraseContent, ...content} = useField('content')
+  const {erase:eraseAuthor, ...author} = useField('author')
+  const {erase:eraseInfo, ...info} = useField('info')
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -35,35 +35,29 @@ const CreateNew = (props) => {
         <div>
           content
           <input 
-            name={content.name} 
-            value={content.value} 
-            onChange={content.onChange} 
+            {...content}
           />
         </div>
         <div>
           author
           <input 
-            name={author.name} 
-            value={author.value} 
-            onChange={author.onChange} 
+            {...author}
           />
         </div>
         <div>
           url for more info
           <input 
-            name={info.name} 
-            value={info.value} 
-            onChange={info.onChange} 
+            {...info}
           />
         </div>
         <button>create</button>
       </form>
       <button onClick={()=>{
-            content.erase(),
-            author.erase(),
-            info.erase()
-          }}>reset
-        </button>
+          eraseContent()
+          eraseAuthor()
+          eraseInfo()
+        }}>reset
+      </button>
     </div>
   )
 }
