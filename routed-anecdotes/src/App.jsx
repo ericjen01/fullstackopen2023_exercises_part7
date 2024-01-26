@@ -11,13 +11,11 @@ import {
 } from 'react-router-dom'
 
 const CreateNew = (props) => {
+
   const navigate = useNavigate()
   const content = useField('content')
   const author = useField('author')
   const info = useField('info')
-
-  console.log("content: ", content)
-
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -36,18 +34,36 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name={content.name} value={content.value} onChange={content.onChange} />
+          <input 
+            name={content.name} 
+            value={content.value} 
+            onChange={content.onChange} 
+          />
         </div>
         <div>
           author
-          <input name={author.name} value={author.value} onChange={author.onChange} />
+          <input 
+            name={author.name} 
+            value={author.value} 
+            onChange={author.onChange} 
+          />
         </div>
         <div>
           url for more info
-          <input name={info.name} value={info.value} onChange={info.onChange} />
+          <input 
+            name={info.name} 
+            value={info.value} 
+            onChange={info.onChange} 
+          />
         </div>
         <button>create</button>
       </form>
+      <button onClick={()=>{
+            content.erase(),
+            author.erase(),
+            info.erase()
+          }}>reset
+        </button>
     </div>
   )
 }
@@ -74,8 +90,11 @@ const App = () => {
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
+
     setAnecdotes(anecdotes.concat(anecdote))
+    
     setNotification( ['following anecdote created: ', `" ${anecdote.content} "`])
+    
     setTimeout(()=>{
       setNotification([])
     }, 3000)
@@ -95,11 +114,12 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  const match = useMatch('/anecdotes/:id') //executed each time browsers url changes
-   //if url matches 'anecdotes/:id' an object is generated
+  const match = useMatch('/anecdotes/:id')
+
   const anecdote = match 
     ?anecdotes.find(a => a.id === Number(match.params.id))
     :null
+
   return(
     <>
       <h1>Software anecdotes</h1>
