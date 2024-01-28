@@ -202,6 +202,14 @@
 --- 4-b Eliminating The Try-Catch
     npm install express-async-errors *introduce the library in app.js, before importing the routes:
 
+    const config = require('./utils/config')
+    const express = require('express')
+    require('express-async-errors')
+    const app = express()
+    const cors = require('cors')
+    const notesRouter = require('./controllers/notes')
+    const middleware = require('./utils/middleware')
+
 --- 4-c Creating Users
     npm install mongoose-unique-validator
     npm install mongoose@7.6.5
